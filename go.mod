@@ -3,7 +3,7 @@ module github.com/tauu/immudb-gorm
 go 1.17
 
 require (
-	github.com/tauu/immusql v0.0.0-20211217142451-797c58ed3cc9
+	github.com/tauu/immusql v0.1.0
 	gorm.io/gorm v1.22.4
 )
 
@@ -13,7 +13,7 @@ require (
 	github.com/aead/poly1305 v0.0.0-20180717145839-3fee0db0b635 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.1.1 // indirect
-	github.com/codenotary/immudb v1.2.0 // indirect
+	github.com/codenotary/immudb v1.2.2 // indirect
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 // indirect
