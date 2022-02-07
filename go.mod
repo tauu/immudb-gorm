@@ -3,7 +3,7 @@ module github.com/tauu/immudb-gorm
 go 1.17
 
 require (
-	github.com/tauu/immusql v0.1.0
+	github.com/tauu/immusql v0.1.1
 	gorm.io/gorm v1.22.4
 )
 
