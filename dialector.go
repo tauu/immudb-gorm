@@ -52,7 +52,7 @@ func (dialector dialector) Initialize(db *gorm.DB) (err error) {
 	// The default update callback is not useable,
 	// as immudb uses the upsert clause instead of update.
 	callbacks.RegisterDefaultCallbacks(db, &callbacks.Config{
-		CreateClauses: []string{"INSERT", "VALUES", "ON CONFLICT"},
+		CreateClauses: []string{"INSERT", "VALUES"},
 		UpdateClauses: []string{"UPDATE", "SET", "WHERE", "ORDER BY", "LIMIT"},
 		DeleteClauses: []string{"DELETE", "FROM", "WHERE", "ORDER BY", "LIMIT"},
 	})
