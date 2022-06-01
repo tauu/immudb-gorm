@@ -52,11 +52,13 @@ func (dialector dialector) Initialize(db *gorm.DB) (err error) {
 	// The default update callback is not useable,
 	// as immudb uses the upsert clause instead of update.
 	callbacks.RegisterDefaultCallbacks(db, &callbacks.Config{
-		CreateClauses: []string{"INSERT", "VALUES"},
-		UpdateClauses: []string{"UPDATE", "SET", "WHERE", "ORDER BY", "LIMIT"},
-		DeleteClauses: []string{"DELETE", "FROM", "WHERE", "ORDER BY", "LIMIT"},
+		LastInsertIDReversed: true,
+		CreateClauses:        []string{"INSERT", "VALUES"},
+		UpdateClauses:        []string{"UPDATE", "SET", "WHERE", "ORDER BY", "LIMIT"},
+		DeleteClauses:        []string{"DELETE", "FROM", "WHERE", "ORDER BY", "LIMIT"},
 	})
 	return nil
+
 }
 
 // Migrator creates a new migrator for the gorm database.
@@ -97,11 +99,6 @@ func (dialector dialector) DataTypeOf(field *schema.Field) string {
 	// Currentlty size constraints are only supported for BLOB and VARCHAR.
 	if (dataType == "BLOB" || dataType == "VARCHAR") && field.Size > 0 {
 		dataType = dataType + fmt.Sprintf("[%d]", field.Size)
-	}
-
-	// Set nullable constraint.
-	if field.NotNull {
-		dataType = dataType + " NOT NULL"
 	}
 
 	// Set auto increment for integer fields, if the field is also a primary key.
