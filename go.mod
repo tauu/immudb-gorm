@@ -57,7 +57,3 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )
-
-replace github.com/tauu/immusql v0.1.1 => ../immudb
-
-//replace github.com/codenotary/immudb v1.2.2 => ../immudb-main
