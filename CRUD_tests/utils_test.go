@@ -6,6 +6,8 @@ import (
 	"os"
 
 	immudbGorm "github.com/tauu/immudb-gorm"
+	_ "github.com/tauu/immusql"
+
 	"gorm.io/gorm"
 )
 

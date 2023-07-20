@@ -6,6 +6,7 @@ import (
 
 	"github.com/rs/zerolog/log"
 	immudbGorm "github.com/tauu/immudb-gorm"
+	_ "github.com/tauu/immusql"
 	"gorm.io/gorm"
 )
 

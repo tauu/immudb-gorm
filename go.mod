@@ -6,7 +6,7 @@ require (
 	github.com/rs/zerolog v1.15.0
 	github.com/stretchr/testify v1.8.2
 	github.com/tauu/immusql v0.1.7
-	gorm.io/gorm v1.22.4
+	gorm.io/gorm v1.25.2
 )
 
 require (
@@ -24,7 +24,7 @@ require (
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
-	github.com/jinzhu/now v1.1.3 // indirect
+	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
