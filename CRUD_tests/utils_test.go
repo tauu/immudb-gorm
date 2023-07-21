@@ -3,7 +3,7 @@ package tests
 import (
 	"log"
 	"net/url"
-	"os"
+	"testing"
 
 	immudbGorm "github.com/tauu/immudb-gorm"
 	_ "github.com/tauu/immusql"
@@ -17,21 +17,13 @@ type User struct {
 	Age  int
 }
 
-func OpenConnection() (*gorm.DB, error) {
-
-	// Creates a database object
-	// http://foo/asdfadf/test
-	// "file:///test.html"
-	path, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
+func OpenConnection(t *testing.T) (*gorm.DB, error) {
 
 	// URI to storage location for the database.
 	// Example format: immudbe:///folderA/folderB/databaseName
 	url := url.URL{
 		Scheme: "immudbe",
-		Path:   path + "/test/testdb",
+		Path:   t.TempDir(),
 	}
 
 	// Open a connection to immudb
@@ -42,14 +34,6 @@ func OpenConnection() (*gorm.DB, error) {
 	}
 
 	return db, nil
-}
-
-func DeleteTestDir() {
-	// Delete the test directory
-	err := os.RemoveAll("test")
-	if err != nil {
-		log.Fatal("deleting test directory failed")
-	}
 }
 
 func TableChecker(db *gorm.DB, name string) bool {

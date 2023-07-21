@@ -12,13 +12,8 @@ import (
 func TestHasTable(t *testing.T) {
 
 	// Open connection
-	db, err := OpenConnection()
-	if !assert.NoError(t, err, "An error ocurred while openning connection") {
-		t.FailNow()
-	}
-
-	// Deletes the test directory
-	defer DeleteTestDir()
+	db, err := OpenConnection(t)
+	require.NoError(t, err, "An error ocurred while opening connection")
 
 	// Check if the table employees exist before creating it
 	isTableCreatedBefore := db.Migrator().HasTable(&Employee{})
@@ -38,13 +33,8 @@ func TestHasTable(t *testing.T) {
 
 func TestHasIndex(t *testing.T) {
 	// Open connection
-	db, err := OpenConnection()
-	if !assert.NoError(t, err, "An error ocurred while opening connection") {
-		t.FailNow()
-	}
-
-	// Deletes the test directory
-	defer DeleteTestDir()
+	db, err := OpenConnection(t)
+	require.NoError(t, err, "An error ocurred while opening connection")
 
 	// Create an employees table
 	err = db.Migrator().CreateTable(&Employee{})
@@ -59,13 +49,8 @@ func TestHasIndex(t *testing.T) {
 
 func TestGetIndexes(t *testing.T) {
 	// Open connection
-	db, err := OpenConnection()
-	if !assert.NoError(t, err, "An error ocurred while opening connection") {
-		t.FailNow()
-	}
-
-	// Deletes the test directory
-	defer DeleteTestDir()
+	db, err := OpenConnection(t)
+	require.NoError(t, err, "An error ocurred while opening connection")
 
 	// Create an employees table
 	err = db.Migrator().CreateTable(&Employee{})
@@ -95,13 +80,8 @@ func TestGetIndexes(t *testing.T) {
 
 func TestGetTables(t *testing.T) {
 	// Open connection
-	db, err := OpenConnection()
-	if !assert.NoError(t, err, "An error ocurred while opening connection") {
-		t.FailNow()
-	}
-
-	// Deletes the test directory
-	defer DeleteTestDir()
+	db, err := OpenConnection(t)
+	require.NoError(t, err, "An error ocurred while opening connection")
 
 	// Create an employees table
 	err = db.Migrator().CreateTable(&Employee{})
@@ -115,13 +95,8 @@ func TestGetTables(t *testing.T) {
 
 func TestHasColumn(t *testing.T) {
 	// Open connection
-	db, err := OpenConnection()
-	if !assert.NoError(t, err, "An error ocurred while opening connection") {
-		t.FailNow()
-	}
-
-	// Deletes the test directory
-	defer DeleteTestDir()
+	db, err := OpenConnection(t)
+	require.NoError(t, err, "An error ocurred while opening connection")
 
 	// Create an employees table
 	err = db.Migrator().CreateTable(&Employee{})
@@ -134,13 +109,8 @@ func TestHasColumn(t *testing.T) {
 
 func TestRenameColumn(t *testing.T) {
 	// Open connection
-	db, err := OpenConnection()
-	if !assert.NoError(t, err, "An error ocurred while opening connection") {
-		t.FailNow()
-	}
-
-	// Deletes the test directory
-	defer DeleteTestDir()
+	db, err := OpenConnection(t)
+	require.NoError(t, err, "An error ocurred while opening connection")
 
 	// Create an employees table
 	err = db.Migrator().CreateTable(&Employee{})
@@ -156,13 +126,8 @@ func TestRenameColumn(t *testing.T) {
 
 func TestAddColumn(t *testing.T) {
 	// Open connection
-	db, err := OpenConnection()
-	if !assert.NoError(t, err, "An error ocurred while opening connection") {
-		t.FailNow()
-	}
-
-	// Deletes the test directory
-	defer DeleteTestDir()
+	db, err := OpenConnection(t)
+	require.NoError(t, err, "An error ocurred while opening connection")
 
 	// Create an employees table
 	err = db.Migrator().CreateTable(&Employee{})

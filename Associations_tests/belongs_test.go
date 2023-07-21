@@ -5,18 +5,14 @@ import (
 
 	"github.com/rs/zerolog/log"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestBelongs(t *testing.T) {
 
 	// Open connection
-	db, err := OpenConnection()
-	if !assert.NoError(t, err, "An error occurred opening connection") {
-		t.FailNow()
-	}
-
-	// Delete test directory
-	defer DeleteTestDir()
+	db, err := OpenConnection(t)
+	require.NoError(t, err, "An error occurred opening connection")
 
 	// Check if tables employees and companies exists before creating them
 	employeesExists := TableChecker("employees", db)

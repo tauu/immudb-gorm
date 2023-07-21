@@ -2,7 +2,7 @@ package test_migrator
 
 import (
 	"net/url"
-	"os"
+	"testing"
 
 	"github.com/rs/zerolog/log"
 	immudbGorm "github.com/tauu/immudb-gorm"
@@ -16,21 +16,13 @@ type Employee struct {
 	Salary int
 }
 
-func OpenConnection() (*gorm.DB, error) {
-
-	// Creates a database object
-	// http://foo/asdfadf/test
-	// "file:///test.html"
-	path, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
+func OpenConnection(t *testing.T) (*gorm.DB, error) {
 
 	// URI to storage location for the database.
 	// Example format: immudbe:///folderA/folderB/databaseName
 	url := url.URL{
 		Scheme: "immudbe",
-		Path:   path + "/test/testdb",
+		Path:   t.TempDir(),
 	}
 
 	db, err := gorm.Open(immudbGorm.Open(url.String()), &gorm.Config{})
@@ -40,13 +32,4 @@ func OpenConnection() (*gorm.DB, error) {
 	}
 
 	return db, nil
-}
-
-func DeleteTestDir() {
-
-	// Deletes the test directory
-	removeDirError := os.RemoveAll("test")
-	if removeDirError != nil {
-		log.Error().Err(removeDirError).Msg("An error occurred while deleting test directory")
-	}
 }

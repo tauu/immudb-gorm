@@ -5,19 +5,15 @@ import (
 
 	"github.com/rs/zerolog/log"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"gorm.io/gorm"
 )
 
 func TestHasMany(t *testing.T) {
 
 	// Open connection
-	db, err := OpenConnection()
-	if !assert.NoError(t, err, "An error occurred opening connection") {
-		t.FailNow()
-	}
-
-	// Delete test directory
-	defer DeleteTestDir()
+	db, err := OpenConnection(t)
+	require.NoError(t, err, "An error occurred opening connection")
 
 	// Check if tables owners and restaurants exists before creating them
 	ownersExists := TableChecker("owners", db)

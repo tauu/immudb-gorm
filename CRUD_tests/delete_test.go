@@ -4,18 +4,14 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestDeleteSoft(t *testing.T) {
 
 	// Open connection
-	db, err := OpenConnection()
-	if !assert.NoError(t, err, "There was an error openning connection") {
-		t.FailNow()
-	}
-
-	// Delete the test directory
-	defer DeleteTestDir()
+	db, err := OpenConnection(t)
+	require.NoError(t, err, "There was an error opening connection")
 
 	// Checking if users table exists after creating it
 	usersBeforeExists := TableChecker(db, "users")

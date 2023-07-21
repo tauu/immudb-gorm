@@ -5,18 +5,14 @@ import (
 
 	"github.com/rs/zerolog/log"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestAutoMigrate(t *testing.T) {
 
 	// Open connection
-	db, err := OpenConnection()
-	if !assert.NoError(t, err, "An error ocurred while openning connection") {
-		t.FailNow()
-	}
-
-	// Deletes the test directory
-	defer DeleteTestDir()
+	db, err := OpenConnection(t)
+	require.NoError(t, err, "An error ocurred while opening connection")
 
 	// Check if the table employees exist before creating it
 	isTableCreatedBefore := db.Migrator().HasTable(&Employee{})
