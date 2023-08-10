@@ -56,6 +56,7 @@ func (dialector dialector) Initialize(db *gorm.DB) (err error) {
 		CreateClauses:        []string{"INSERT", "VALUES"},
 		UpdateClauses:        []string{"UPDATE", "SET", "WHERE", "ORDER BY", "LIMIT"},
 		DeleteClauses:        []string{"DELETE", "FROM", "WHERE", "ORDER BY", "LIMIT"},
+		QueryClauses:         []string{"SELECT", "FROM", "WHERE", "GROUP BY", "ORDER BY", "LIMIT"},
 	})
 	return nil
 
