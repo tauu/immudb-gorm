@@ -422,8 +422,8 @@ func extractColumnFromIndexName(name string, table string) (string, error) {
 	// The format immudb uses for the index names is: table[columns] .
 	// Remove the table name from the index name.
 	columnsPart := strings.TrimPrefix(name, table)
-	if columnsPart[0] != '[' || columnsPart[len(columnsPart)-1] != ']' {
-		return "", errors.New("index name does not use the expected immudb format")
+	if columnsPart[0] != '(' || columnsPart[len(columnsPart)-1] != ')' {
+		return "", fmt.Errorf("index name %s does not use the expected immudb format", name)
 	}
 	// Return the string between the brackets.
 	return columnsPart[1 : len(columnsPart)-1], nil
