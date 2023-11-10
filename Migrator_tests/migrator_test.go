@@ -141,6 +141,57 @@ func TestGetIndexes(t *testing.T) {
 	assert.Equal(t, []string{"deleted_at"}, indexes[1].Columns(), "the second index should only contain the deleted_at column")
 }
 
+func TestCreateIndex(t *testing.T) {
+	// Open connection
+	db, err := OpenConnection(t)
+	require.NoError(t, err, "An error ocurred while opening connection")
+
+	// Create an employees table
+	err = db.Migrator().CreateTable(&Employee{})
+	if err != nil {
+		log.Error().Err(err).Msg("An error occurred while creating a new table")
+	}
+
+	// Add and index to the table.
+	type Employee struct {
+		gorm.Model
+		Name   string
+		Salary int `gorm:"index"`
+	}
+
+	// Create the index for the salary column.
+	err = db.Debug().Migrator().CreateIndex(&Employee{}, "Salary")
+	assert.NoError(t, err, "creating an index should cause an error")
+
+	// Check if the table employees has the just created index for the salary column.
+	hasSalaryIndex := db.Migrator().HasIndex(&Employee{}, "idx_employees_salary")
+	assert.True(t, hasSalaryIndex, "Table employees should have an index for the salary column after it was created.")
+}
+
+func TestDropIndex(t *testing.T) {
+	// Open connection
+	db, err := OpenConnection(t)
+	require.NoError(t, err, "An error ocurred while opening connection")
+
+	// Create an employees table
+	err = db.Migrator().CreateTable(&Employee{})
+	if err != nil {
+		log.Error().Err(err).Msg("An error occurred while creating a new table")
+	}
+
+	// Check if the table employees has the default index for the deleted_at column.
+	hasDeletedAtIndex := db.Migrator().HasIndex(&Employee{}, "idx_employees_deleted_at")
+	assert.True(t, hasDeletedAtIndex, "Table employees should have an index for the deleted_at column.")
+
+	// Drop the index for the deleted_at column.
+	err = db.Debug().Migrator().DropIndex(&Employee{}, "Deleted_at")
+	assert.NoError(t, err, "deleting an index should cause an error")
+
+	// Check if the table employees has the default index for the deleted_at column.
+	hasDeletedAtIndex = db.Migrator().HasIndex(&Employee{}, "idx_employees_deleted_at")
+	assert.False(t, hasDeletedAtIndex, "Table employees should no longer have an index for the deleted_at column.")
+}
+
 func TestGetTables(t *testing.T) {
 	// Open connection
 	db, err := OpenConnection(t)

@@ -1,7 +1,6 @@
 package immudbGorm
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"strings"
@@ -122,10 +121,14 @@ func (m Migrator) DropConstraint(value interface{}, name string) error {
 }
 
 // DropIndex removes an index from a table.
-//
-// Not implemented as immudb does not support dropping indexes.
 func (m Migrator) DropIndex(value interface{}, name string) error {
-	return &ErrMissingImmuDBsupport{"DropIndex"}
+	return m.RunWithValue(value, func(stmt *gorm.Statement) error {
+		if idx := stmt.Schema.LookIndex(name); idx != nil {
+			name = idx.Name
+		}
+
+		return m.DB.Exec("DROP INDEX ON ?(?)", m.CurrentTable(stmt), clause.Column{Name: name}).Error
+	})
 }
 
 // DropTable removes a table from a database.
