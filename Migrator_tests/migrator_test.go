@@ -66,6 +66,34 @@ func TestRenameTable(t *testing.T) {
 	assert.True(t, employeeOfTheMonthTableExists, "Table employeeOfTheMonths table should exists after the employees table was renamed")
 }
 
+func TestDropTable(t *testing.T) {
+
+	// Open connection
+	db, err := OpenConnection(t)
+	require.NoError(t, err, "An error ocurred while opening connection")
+
+	// Check if the table employees exist before creating it
+	isTableCreatedBefore := db.Migrator().HasTable(&Employee{})
+	assert.Equal(t, isTableCreatedBefore, false, "Table employees should not exist before creating it")
+
+	// Create an employees table
+	err = db.Migrator().CreateTable(&Employee{})
+	if err != nil {
+		log.Error().Err(err).Msg("An error occurred while creating a new table")
+	}
+
+	// Check if the table employees exist after creating it
+	isTableCreatedAfter := db.Migrator().HasTable(&Employee{})
+	assert.Equal(t, isTableCreatedAfter, true, "Table employees should exist after creating it")
+
+	// Drop the table employees.
+	err = db.Migrator().DropTable(&Employee{})
+	assert.NoError(t, err, "dropping a table should not cause an error")
+
+	employeeTableExists := db.Migrator().HasTable(&Employee{})
+	assert.False(t, employeeTableExists, "Table employees table should no longer exists after it was dropped")
+}
+
 func TestHasIndex(t *testing.T) {
 	// Open connection
 	db, err := OpenConnection(t)

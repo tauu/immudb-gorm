@@ -129,10 +129,19 @@ func (m Migrator) DropIndex(value interface{}, name string) error {
 }
 
 // DropTable removes a table from a database.
-//
-// Not implemented as immudb does not support dropping tables.
 func (m Migrator) DropTable(values ...interface{}) error {
-	return &ErrMissingImmuDBsupport{"DropTable"}
+	values = m.ReorderModels(values, false)
+	for i := len(values) - 1; i >= 0; i-- {
+		tx := m.DB.Session(&gorm.Session{})
+		if err := m.RunWithValue(values[i], func(stmt *gorm.Statement) error {
+			// The base migrator adds 'IF EXISTS' after table, but this syntax
+			// is not supported by immudb.
+			return tx.Exec("DROP TABLE ?", m.CurrentTable(stmt)).Error
+		}); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 // DropView removes a view from a database.
