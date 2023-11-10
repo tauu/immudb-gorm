@@ -27,7 +27,7 @@ func TestCreate(t *testing.T) {
 	assert.Equal(t, true, usersAfterExists, "Table users should exists after creating it")
 
 	// Define a new record
-	var newUser = User{Name: "Jose", Age: 33}
+	var newUser = User{Name: "Jose", Age: 33, Height: 1.8}
 
 	// Create a new user record
 	res := db.Create(&newUser)
@@ -44,5 +44,6 @@ func TestCreate(t *testing.T) {
 	// Test cases
 	assert.Equal(t, newUser.Name, user.Name, "The queried name does not match the defined name")
 	assert.Equal(t, newUser.Age, user.Age, "The queried age does not match the defined age")
+	assert.Equal(t, newUser.Height, user.Height, "The queried height does not match the defined height")
 
 }

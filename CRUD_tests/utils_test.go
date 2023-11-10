@@ -13,8 +13,9 @@ import (
 
 type User struct {
 	gorm.Model
-	Name string
-	Age  int
+	Name   string
+	Age    int
+	Height float64
 }
 
 func OpenConnection(t *testing.T) (*gorm.DB, error) {

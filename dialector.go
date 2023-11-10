@@ -83,9 +83,7 @@ func (dialector dialector) DataTypeOf(field *schema.Field) string {
 	case schema.Int, schema.Uint:
 		dataType = "INTEGER"
 	case schema.Float:
-		// Floats are not yet supported by immudb.
-		// Therefore a blob is used to to store the binary representation.
-		dataType = "BLOB[8]"
+		dataType = "FLOAT"
 	case schema.String:
 		dataType = "VARCHAR"
 	case schema.Time:
