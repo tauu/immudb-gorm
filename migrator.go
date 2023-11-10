@@ -363,12 +363,9 @@ func (m Migrator) RenameIndex(value interface{}, oldName, newName string) error 
 	return &ErrMissingImmuDBsupport{"RenameIndex"}
 }
 
-// RenameTable alters the definition of a column in the specified table.
-//
-// Not implemented as immudb does not support changing the name of a table.
-func (m Migrator) RenameTable(oldName, newName interface{}) error {
-	return &ErrMissingImmuDBsupport{"RenameTable"}
-}
+// RenameTable does not have a custom implementation as the default one is
+// compatible with immudb.
+//func (m Migrator) RenameTable(oldName, newName interface{}) error
 
 type ImmuDBindex struct {
 	immudbName string
