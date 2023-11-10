@@ -3,6 +3,7 @@ module github.com/tauu/immudb-gorm
 go 1.17
 
 require (
+	github.com/google/uuid v1.4.0
 	github.com/rs/zerolog v1.15.0
 	github.com/stretchr/testify v1.8.3
 	github.com/tauu/immusql v0.1.9
@@ -19,7 +20,6 @@ require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
-	github.com/google/uuid v1.4.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
