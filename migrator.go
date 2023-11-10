@@ -110,12 +110,9 @@ func (m Migrator) CurrentDatabase() (name string) {
 	return ""
 }
 
-// DropColumn removes a column from a table.
-//
-// Not implemented as immudb does not support removing columns from a table.
-func (m Migrator) DropColumn(value interface{}, name string) error {
-	return &ErrMissingImmuDBsupport{"DropColumn"}
-}
+// DropColumn does not have a custom implementation as the default one is
+// compatible with immudb.
+//func (m Migrator) DropColumn(value interface{}, name string) error
 
 // DropConstraint removes a constraint from a table.
 //

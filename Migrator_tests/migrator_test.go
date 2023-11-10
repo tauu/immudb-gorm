@@ -145,3 +145,20 @@ func TestAddColumn(t *testing.T) {
 	hasNewColumn := db.Migrator().HasColumn(&Employee{}, "promote")
 	assert.True(t, hasNewColumn, "the table should have the added column")
 }
+
+func TestDropColumn(t *testing.T) {
+	// Open connection
+	db, err := OpenConnection(t)
+	require.NoError(t, err, "An error ocurred while opening connection")
+
+	// Create an employees table
+	err = db.Migrator().CreateTable(&Employee{})
+	require.NoError(t, err, "creating a table in an empty database should not cause an error")
+
+	// Remove salary column.
+	err = db.Migrator().DropColumn(&Employee{}, "salary")
+	assert.NoError(t, err, "dropping a column should not cause an error")
+
+	hasNewColumn := db.Migrator().HasColumn(&Employee{}, "salary")
+	assert.False(t, hasNewColumn, "the table should not have the dropped column")
+}
