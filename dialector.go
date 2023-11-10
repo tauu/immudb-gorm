@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 	"gorm.io/gorm/callbacks"
 	"gorm.io/gorm/clause"
@@ -118,6 +119,14 @@ func (dialector dialector) DefaultValueOf(*schema.Field) clause.Expression {
 // BindVarTo adds a placeholder for a variable in a SQL query.
 func (dialector dialector) BindVarTo(writer clause.Writer, stmt *gorm.Statement, v interface{}) {
 	writer.WriteByte('?')
+	// Add string to UUID conversion, as a workaround for a bug in immudb.
+	// ImmuDB expects raw UUIDs to be set as parameters, but does not have a
+	// method to transfer raw UUID values. Only string encoded uuids can be
+	// transferred, but these are not parsed to uuids currently.
+	_, ok := v.(uuid.UUID)
+	if ok {
+		writer.WriteString("::UUID")
+	}
 }
 
 // QuoteTo quotes an identifier in a SQL query.

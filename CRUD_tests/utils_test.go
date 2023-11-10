@@ -5,6 +5,7 @@ import (
 	"net/url"
 	"testing"
 
+	"github.com/google/uuid"
 	immudbGorm "github.com/tauu/immudb-gorm"
 	_ "github.com/tauu/immusql"
 
@@ -13,9 +14,10 @@ import (
 
 type User struct {
 	gorm.Model
-	Name   string
-	Age    int
-	Height float64
+	Name      string
+	Age       int
+	Height    float64
+	CompanyID uuid.UUID `gorm:"type:UUID"`
 }
 
 func OpenConnection(t *testing.T) (*gorm.DB, error) {
