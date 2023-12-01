@@ -28,8 +28,9 @@ func TestCreate(t *testing.T) {
 	assert.Equal(t, true, usersAfterExists, "Table users should exists after creating it")
 
 	// Define a new record
-	uuid, _ := uuid.NewRandom()
-	var newUser = User{Name: "Jose", Age: 33, Height: 1.8, CompanyID: uuid}
+	uuid1, _ := uuid.NewRandom()
+	uuid2, _ := uuid.NewRandom()
+	var newUser = User{Name: "Jose", Age: 33, Height: 1.8, CompanyID: uuid1, GroupID: myUUID{uuid2}, ContractID: myNullUUID{valid: false}}
 
 	// Create a new user record
 	res := db.Debug().Create(&newUser)
@@ -44,8 +45,10 @@ func TestCreate(t *testing.T) {
 	}
 
 	// Test cases
-	assert.Equal(t, newUser.Name, user.Name, "The queried name does not match the defined name")
-	assert.Equal(t, newUser.Age, user.Age, "The queried age does not match the defined age")
-	assert.Equal(t, newUser.Height, user.Height, "The queried height does not match the defined height")
-	assert.Equal(t, newUser.CompanyID, user.CompanyID, "The queried companyID does not match the defined companyID")
+	assert.Equal(t, user.Name, newUser.Name, "The queried name does not match the defined name")
+	assert.Equal(t, user.Age, newUser.Age, "The queried age does not match the defined age")
+	assert.Equal(t, user.Height, newUser.Height, "The queried height does not match the defined height")
+	assert.Equal(t, user.CompanyID, newUser.CompanyID, "The queried companyID does not match the defined companyID")
+	assert.Equal(t, user.GroupID, newUser.GroupID, "The queried groupID does not match the defined groupID")
+	assert.Equal(t, user.ContractID.valid, newUser.ContractID.valid, "The queried contract does not match the defined contractID")
 }

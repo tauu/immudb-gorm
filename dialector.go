@@ -2,6 +2,7 @@ package immudbGorm
 
 import (
 	"database/sql"
+	"database/sql/driver"
 	"fmt"
 
 	"github.com/google/uuid"
@@ -123,8 +124,36 @@ func (dialector dialector) BindVarTo(writer clause.Writer, stmt *gorm.Statement,
 	// ImmuDB expects raw UUIDs to be set as parameters, but does not have a
 	// method to transfer raw UUID values. Only string encoded uuids can be
 	// transferred, but these are not parsed to uuids currently.
-	_, ok := v.(uuid.UUID)
-	if ok {
+	_, isUUID := v.(uuid.UUID)
+	// If the type is not directly a uuid, check if it implements the valuer
+	// interface and serialized itself to a uuid string.
+	if !isUUID {
+		valuer, ok := v.(driver.Valuer)
+		if ok {
+			value, err := valuer.Value()
+			if err == nil {
+				if str, ok := value.(string); ok {
+					_, err = uuid.Parse(str)
+					if err == nil {
+						isUUID = true
+					}
+				}
+			}
+		}
+	}
+	// // If the value is not directly a UUID, check if it embeds a UUID value.
+	// if !isUUID {
+	// 	t := reflect.TypeOf(v)
+	// 	for i := 0; i < t.NumField(); i++ {
+	// 		if t.Field(i).Type.String() == "uuid.UUID" {
+	// 			isUUID = true
+	// 			break
+	// 		}
+	// 	}
+	// }
+	// Append an explicit cast to a uuid, if the value was determined to be a
+	// a uuid value.
+	if isUUID {
 		writer.WriteString("::UUID")
 	}
 }
